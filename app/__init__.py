@@ -20,8 +20,6 @@ def create_app():
 
     db.init_app(app)
     socketio.init_app(app)
-
-    # === Begin Login configs ===
     login_manager = LoginManager()
     login_manager.login_view = "auth.login"
     login_manager.init_app(app)
@@ -32,8 +30,6 @@ def create_app():
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
         return User.query.get(int(user_id))
-
-    # === End Login configs ===
 
     # blueprint for auth routes in our app
     from .auth import auth
