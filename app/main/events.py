@@ -49,6 +49,8 @@ def joined(_):
 def text(message):
     """Sent by a client when the user entered a new message.
     The message is sent to all people in the room."""
+    if message["msg"] == "":
+        return
     room = session.get("room")
     # Command must have a the following structure: /command-name[=p1,p2,p3].
     # Command name can not have = symbol
@@ -57,6 +59,7 @@ def text(message):
         .filter(Command.cmd == message["msg"].split("=")[0])
         .first()
     )
+    msg = Message(message=message["msg"], room=room, sender=current_user)
 
     if command:
         # Command detected: Send to RabbitMQ, then Bot must process it
@@ -90,7 +93,6 @@ def text(message):
                     room=room,
                 )
             except (RemoteCallTimeout, RemoteFunctionError) as exc:
-                # TODO: logger exc
                 print(str(exc))
                 emit(
                     "message",
@@ -105,19 +107,19 @@ def text(message):
                 )
 
         Thread(target=rpc).start()  # Call Async RPC
+        msg.sent_on = datetime.now()
     else:
         # add the new message to the database
-        msg = Message(message=message["msg"], room=room, sender=current_user)
         db.session.add(msg)
         db.session.commit()
-        emit("message", [parse_message(msg)], room=room)
+
+    emit("message", [parse_message(msg)], room=room)
 
 
 @socketio.on("left", namespace="/chat")
 def left(_):
     """Sent by clients when they leave a room.
     A status message is broadcast to all people in the room."""
-    print("Exiting...")
     room = session.get("room")
     leave_room(room)
     emit("status", {"msg": current_user.name + " has left the room."}, room=room)

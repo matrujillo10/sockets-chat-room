@@ -48,11 +48,12 @@ def signup_post():
     email = request.form.get("email")
     name = request.form.get("name")
     password = request.form.get("password")
-    created, _ = signup_controller(email, name, password)
+    created, user = signup_controller(email, name, password)
     if not created:
         flash("Email address already exists")
         return redirect(url_for("auth.signup"))
-    return redirect(url_for("auth.login"))
+    login_user(user, remember=True)
+    return redirect(url_for("main.home"))
 
 
 #######################################################################################

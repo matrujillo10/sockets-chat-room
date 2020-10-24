@@ -24,7 +24,7 @@
         });
         $('#text').keypress(function(e) {
             var code = e.keyCode || e.which;
-            if (code == 13) {
+            if (code == 13 && $('#text').val() !== "") {
                 text = $('#text').val();
                 $('#text').val('');
                 socket.emit('text', {msg: text});
@@ -32,23 +32,28 @@
         });
     });
     $(window).bind('beforeunload', function(){
-        socket.emit('left', {}, function() {
+        if (socket.connected) {
+            socket.emit('left', {}, function() {});
             socket.disconnect();
-        });
+        }
     });
     function leave_room() {
         socket.emit('left', {}, function() {
             socket.disconnect();
 
-            // go back to the login page
+            // go back to the home page
             window.location.href = "{{ url_for('main.home') }}";
         });
+    }
+    function clear_screen() {
+        $('#chat').val("");
     }
 </script>
 {% endblock %}
 
 {% block content %}
 <h1 class="title">Room: {{ room }}</h1>
+<a href="#" onclick="clear_screen();">Clear Screen</a><br><br>
 <textarea id="chat" cols="80" rows="20"></textarea><br><br>
 <input id="text" size="80" placeholder="Send a message to {{ room }}"><br><br>
 <a href="#" onclick="leave_room();">Leave this room</a>

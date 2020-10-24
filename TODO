@@ -1,7 +1,8 @@
 [] Handle bot errors
-[] Add forms to login and signup
-[] Login when signing up
+[x] Login when signing up
 [] Dockerize all
-[] Store bot responses
-[] Show to other users commands
+[] Store bot responses?
+[x] Show to other users commands
 [] Write unit tests
+[x] Fix bug of double exit when unloading chat page
+[x] Restict empty messages
