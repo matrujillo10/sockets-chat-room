@@ -26,6 +26,7 @@ def home():
 
 
 @main.route("/chat")
+@login_required
 def chat():
     """Chat room. The room must be stored in the session."""
     room = session.get("room", "")
