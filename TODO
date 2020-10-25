@@ -5,3 +5,4 @@
 [] Write unit tests
 [x] Fix bug of double exit when unloading chat page
 [x] Restict empty messages
+[] Load to db commands from bot
