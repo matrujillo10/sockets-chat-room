@@ -90,10 +90,9 @@ def text(message):
                             "sent_on": datetime.now().strftime("%b %d %y - %H:%M"),
                         }
                     ],
-                    room=room,
+                    room=request.sid,
                 )
-            except (RemoteCallTimeout, RemoteFunctionError) as exc:
-                print(str(exc))
+            except (RemoteCallTimeout, RemoteFunctionError):
                 emit(
                     "message",
                     [
@@ -108,12 +107,12 @@ def text(message):
 
         Thread(target=rpc).start()  # Call Async RPC
         msg.sent_on = datetime.now()
+        emit("message", [parse_message(msg)], room=request.sid)
     else:
         # add the new message to the database
         db.session.add(msg)
         db.session.commit()
-
-    emit("message", [parse_message(msg)], room=room)
+        emit("message", [parse_message(msg)], room=room)
 
 
 @socketio.on("left", namespace="/chat")

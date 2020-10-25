@@ -54,7 +54,7 @@
 {% block content %}
 <h1 class="title">Room: {{ room }}</h1>
 <a href="#" onclick="clear_screen();">Clear Screen</a><br><br>
-<textarea id="chat" cols="80" rows="20"></textarea><br><br>
+<textarea id="chat" cols="80" rows="20" readonly></textarea><br><br>
 <input id="text" size="80" placeholder="Send a message to {{ room }}"><br><br>
 <a href="#" onclick="leave_room();">Leave this room</a>
 {% endblock %}
