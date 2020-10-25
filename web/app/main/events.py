@@ -49,7 +49,7 @@ def joined(_):
 def text(message):
     """Sent by a client when the user entered a new message.
     The message is sent to all people in the room."""
-    if message["msg"] == "":
+    if message["msg"] == "" or len(message["msg"]) > 1000:
         return
     room = session.get("room")
     # Command must have a the following structure: /command-name[=p1,p2,p3].

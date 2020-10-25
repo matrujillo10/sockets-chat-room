@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  web:
+    image: jobsity-web:latest
+    ports:
+      - 80:5000
+    environment:
+      - FLASK_APP=chat.py
+      - APP_SETTINGS=config.DevelopmentConfig
+      - SECRET_KEY=d3ee9c3f6144bede4ea0773323e090e88b69acdb5d2f852fcfcfa41ed5a92045
+      - DATABASE_URL=postgresql://jobsity:Job$ity12.3@db/chat
+      - AMQP_URL=amqp://jobsity:Job$ity12.3@rabbitmq:5672/
+    depends_on:
+      - db
+      - rabbitmq
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 40s
+      timeout: 5s
+      retries: 5
+  bot:
+    image: jobsity-bot:latest
+    depends_on:
+      - db
+      - web
+      - rabbitmq
+    environment:
+      - AMQP_URL=amqp://jobsity:Job$ity12.3@rabbitmq:5672/
+  db:
+    image: postgres:alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - "5432"
+    environment:
+      - POSTGRES_USER=jobsity
+      - POSTGRES_PASSWORD=Job$ity12.3
+      - POSTGRES_DB=chat
+  rabbitmq:
+    image: rabbitmq:alpine
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    expose:
+      - "5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=jobsity
+      - RABBITMQ_DEFAULT_PASS=Job$ity12.3
+
+volumes:
+  postgres_data:
+  rabbitmq_data:

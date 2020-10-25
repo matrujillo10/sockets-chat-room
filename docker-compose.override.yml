@@ -1,0 +1,19 @@
+version: '3.7'
+
+services:
+  web:
+    build: ./web/
+    container_name: jobsity_web
+    environment:
+      - FLASK_ENV=development
+    restart: unless-stopped
+  bot:
+    build: ./bot/
+    container_name: jobsity_bot
+    restart: unless-stopped
+  db:
+    container_name: jobsity_db
+    restart: unless-stopped
+  rabbitmq:
+    container_name: jobsity_rabbitmq
+    restart: unless-stopped
