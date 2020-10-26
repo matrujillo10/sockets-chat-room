@@ -22,8 +22,17 @@ manager.add_command("db", MigrateCommand)
 @manager.command
 def seed():
     "Load initial commands into database."
-    cmd = Command(cmd="/stock", bot_name="Stock Bot")
-    db.session.add(cmd)
+
+    def upsert_cmd(cmd):
+        """Update cmd if exists, insert otherwise"""
+        old_cmd = db.session.query(Command).filter(Command.cmd == cmd.cmd).first()
+        if old_cmd:
+            old_cmd.bot_name = cmd.bot_name
+            db.session.merge(old_cmd)
+        else:
+            db.session.add(cmd)
+
+    upsert_cmd(Command(cmd="/stock", bot_name="Stock Bot"))
     db.session.commit()
 
 
