@@ -8,7 +8,6 @@ from flask_socketio import emit, join_room, leave_room
 from flask_login import current_user
 from rabbitmq_rpc.client import RPCClient
 from rabbitmq_rpc.exceptions import RemoteCallTimeout, RemoteFunctionError
-import pika
 
 from .. import socketio, db
 from ..models.message import Message

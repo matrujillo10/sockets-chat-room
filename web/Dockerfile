@@ -12,9 +12,10 @@ ENV FLASK_ENV="production"
 # Install libraries
 COPY ./requirements.txt ./
 RUN pip install -r requirements.txt
+COPY ./entry_point.sh /
+RUN chmod +x /entry_point.sh
 
 # Copy app
 COPY ./ ./
 
-RUN chmod +x ./entry_point.sh
-ENTRYPOINT [ "./entry_point.sh" ]
+ENTRYPOINT [ "/entry_point.sh" ]

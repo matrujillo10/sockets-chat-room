@@ -6,7 +6,7 @@
 <script type="text/javascript" charset="utf-8">
     var socket;
     $(document).ready(function(){
-        socket = io.connect('http://' + document.domain + ':' + location.port + '/chat');
+        socket = io.connect('/chat');
         socket.on('connect', function() {
             socket.emit('joined', {});
         });
@@ -50,13 +50,44 @@
     function clear_screen() {
         $('#chat').val("");
     }
+    function send_message(test) {
+        if ($('#text').val() !== "") {
+            if ($('#text').val().length > 1000)
+                alert("Message too long");
+            text = $('#text').val();
+            $('#text').val('');
+            socket.emit('text', {msg: text});
+        }
+
+    }
 </script>
 {% endblock %}
 
 {% block content %}
-<h1 class="title">Room: {{ room }}</h1>
-<a href="#" onclick="clear_screen();">Clear Screen</a><br><br>
-<textarea id="chat" cols="80" rows="20" readonly></textarea><br><br>
-<input id="text" size="80" placeholder="Send a message to {{ room }}"><br><br>
-<a href="#" onclick="leave_room();">Leave this room</a>
+<div class="column is-10 is-offset-1">
+    <h1 class="title">Room: {{ room }}</h1>
+    <div class="box">
+        <a href="#" onclick="clear_screen();">Clear Screen</a><br><br>
+        <div class="field">
+            <div class="control">
+                <textarea id="chat" class="textarea is-primary is-medium" readonly></textarea>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <input id="text" class="input is-large" placeholder="Send a message to {{ room }}">
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-block is-primary is-large is-fullwidth" onclick="send_message();">Send</button>
+            </div>
+        </div>
+        <div class="field">
+            <div class="control">
+                <button class="button is-block is-warning is-large is-fullwidth" onclick="leave_room();">Leave this room</button>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
