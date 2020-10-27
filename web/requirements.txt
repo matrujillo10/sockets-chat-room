@@ -48,4 +48,6 @@ Werkzeug==1.0.1
 wrapt==1.12.1
 WTForms==2.3.3
 zipp==3.3.1
+pytest==6.1.1
 email_validator
+pytest-lazy-fixture==0.6.3

@@ -29,6 +29,9 @@ def joined(_):
     A status message is broadcast to all people in the room.
     And list of last 50 message of the room are sent to the
     client that just connected."""
+    if not current_user.is_authenticated:
+        return
+
     room = session.get("room")
     join_room(room)
     emit("status", {"msg": current_user.name + " has entered the room."}, room=room)
@@ -48,8 +51,13 @@ def joined(_):
 def text(message):
     """Sent by a client when the user entered a new message.
     The message is sent to all people in the room."""
-    if message["msg"] == "" or len(message["msg"]) > 1000:
+    if (
+        message["msg"] == ""
+        or len(message["msg"]) > 1000
+        or not current_user.is_authenticated
+    ):
         return
+
     room = session.get("room")
     # Command must have a the following structure: /command-name[=p1,p2,p3].
     # Command name can not have = symbol
@@ -118,6 +126,9 @@ def text(message):
 def left(_):
     """Sent by clients when they leave a room.
     A status message is broadcast to all people in the room."""
+    if not current_user.is_authenticated:
+        return False
+
     room = session.get("room")
     leave_room(room)
     emit("status", {"msg": current_user.name + " has left the room."}, room=room)

@@ -1,9 +1,9 @@
 """Form to login"""
 
-from flask_wtf import Form
+from flask_wtf import FlaskForm as Form
 from wtforms.fields import BooleanField, SubmitField, PasswordField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import Required, Length, Email
+from wtforms.validators import DataRequired, Length, Email
 
 
 class LoginForm(Form):
@@ -11,12 +11,12 @@ class LoginForm(Form):
 
     email = EmailField(
         "Email",
-        validators=[Required(), Length(max=100), Email()],
+        validators=[DataRequired(), Length(max=100), Email()],
         render_kw={"placeholder": "Your Email"},
     )
     password = PasswordField(
         "Password",
-        validators=[Required(), Length(min=5)],
+        validators=[DataRequired(), Length(min=5)],
         render_kw={"placeholder": "Your Password"},
     )
     remember = BooleanField("Remember me")

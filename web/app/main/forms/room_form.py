@@ -1,8 +1,8 @@
 """Form to enter a room"""
 
-from flask_wtf import Form
+from flask_wtf import FlaskForm as Form
 from wtforms.fields import StringField, SubmitField
-from wtforms.validators import Required, Length
+from wtforms.validators import DataRequired, Length
 
 
 class RoomForm(Form):
@@ -10,7 +10,7 @@ class RoomForm(Form):
 
     room = StringField(
         "Room",
-        validators=[Required(), Length(min=1, max=100)],
+        validators=[DataRequired(), Length(min=1, max=100)],
         render_kw={"placeholder": "Chatroom name"},
     )
     submit = SubmitField("Enter Chatroom")

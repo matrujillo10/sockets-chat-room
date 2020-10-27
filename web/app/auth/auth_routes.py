@@ -1,7 +1,7 @@
 """Auth routes"""
 
 from flask import render_template, redirect, url_for, request, flash
-from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required, current_user
 from .auth_controller import signup as signup_controller, login as login_controller
 from .forms.signup_form import SignupForm
 from .forms.login_form import LoginForm
@@ -16,6 +16,9 @@ from . import auth
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     """Process login requests"""
+    if current_user.is_authenticated:
+        return redirect(url_for("main.home"))
+
     form = LoginForm()
     if form.validate_on_submit():
         email = form.email.data
@@ -39,6 +42,9 @@ def login():
 @auth.route("/signup", methods=["GET", "POST"])
 def signup():
     """Process sign up requests"""
+    if current_user.is_authenticated:
+        return redirect(url_for("main.home"))
+
     form = SignupForm()
     if form.validate_on_submit():
         email = form.email.data

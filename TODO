@@ -2,7 +2,7 @@
 [x] Login when signing up
 [x] Dockerize all
 [x] Show to other users commands
-[] Write unit tests
+[X] Write unit tests
 [x] Fix bug of double exit when unloading chat page
 [x] Restict empty messages
 [x] Load to db commands when init db

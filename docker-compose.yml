@@ -13,6 +13,7 @@ services:
       - SECRET_KEY=d3ee9c3f6144bede4ea0773323e090e88b69acdb5d2f852fcfcfa41ed5a92045
       - DATABASE_URL=postgresql://jobsity:Job$ity12.3@db/chat
       - AMQP_URL=amqp://jobsity:Job$ity12.3@rabbitmq:5672/
+      - APP_SETTINGS_TEST=config.DevelopmentConfig
     depends_on:
       - db
       - rabbitmq
