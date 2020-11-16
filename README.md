@@ -25,7 +25,7 @@ After that, you should be able to access the web application in [localhost](http
 
 > The bot application could take a bit to start due to its dependency towards `rabbitmq`. So please, wait a few seconds before using a command.
 
-## Run test
+## Run Tests
 
 To run web app tests, you should run the following command:
 
