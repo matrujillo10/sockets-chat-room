@@ -1,7 +1,4 @@
 # Python Challenge
-
-> Both bonus tasks were completed
-
 ## Demo
 
 > [Full demo](https://youtu.be/5CcsI-CIvi4)
