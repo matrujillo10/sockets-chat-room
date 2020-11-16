@@ -1,4 +1,4 @@
-# Python Challenge
+# Flask Chat Rooms with support for stoop API consuming
 ## Demo
 
 > [Full demo](https://youtu.be/5CcsI-CIvi4)
