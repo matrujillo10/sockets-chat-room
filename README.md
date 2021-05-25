@@ -13,7 +13,7 @@ The application was built using `Flask` and `Flask-SocketIO`. For communicating 
 
 > Each components will restart automatically in case of failure
 
-## Run Application
+## Run Application
 
 To run the application you need to execute the following command:
 
